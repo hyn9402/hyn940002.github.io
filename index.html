@@ -4,6 +4,11 @@
 	<title>Welcome</title>
 	<link href="https://fonts.googleapis.com/css?family=Indie+Flower" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Nanum+Gothic" rel="stylesheet">
+	<link rel="stylesheet" href="jquery-ui.min.css" />
+	<link rel="stylesheet" href="colorbox.css" />
+	<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+	<script src="jquery-ui.min.js"></script>
+	<script src="jquery.colorbox.js"></script>
 	<!--초기화-->
 	<style>
 		* { margin:0; padding:0; }
@@ -129,7 +134,7 @@
 		#main_section > div.main_div > h1 {
 			color: #c47f33;
 		}
-		#main_section > div.main_div > img {
+		#main_section > div.main_div > img.img_profile {
 			width: 130px;
 			height: 170px;
 			border: 1px solid gray;
@@ -205,6 +210,13 @@
 			color: #ede8e1;
 		}
 	</style>
+	<!-- UI 플러그인 색상 변환 -->
+	<style>
+	.reverse {
+	color: white;
+	background-color: #a0d6d0;
+	}
+	</style>
 	<!--홈페이지접속시환영메세지-->
 	<script>
 		//배열로 출력 
@@ -238,6 +250,79 @@
 		"width=300 height=500 left=100 top=100 directories=no");
 		}
 	</script>
+	<!--색인 번호를 이용하여 테이블 배경색 지정 -->
+	<script>
+		$(document).ready(function () {
+			$('.index_tr tr:odd').css('background', '#a0d6d0');
+			$('.index_tr tr:even').css('background', '#b7f4ee');
+		});
+	</script>
+	<!-- 너비 확대 - 문서 객체 속성 지정 -->
+	<script>
+		$(document).ready(function () {
+			$('.img_boy').attr('width', function(index) {
+				return (index + 1) * 20;
+			});
+		});
+	</script>
+	<!-- 이미지 번갈아 표시하기 -->
+	<script>
+		$(document).ready(function () {
+			$('.img_now').css('width', 50);
+				setInterval(function () {
+			$('.img_now').first().appendTo('div.div_now');
+			}, 1000);
+		});
+	</script>
+	<!-- 클릭시 이미지 추가 -->
+	<script>
+		$(document).ready(function () {
+			$('h5.h5_click').on('click', function () {
+				$(this).html(function (index, html) {
+					return html + '<img src="img/thumbs.png">';
+				});
+			});
+		});
+	</script>
+	<!-- 비밀번호 입력 글자수 확인 -->
+	<script>
+		$(document).ready(function () {
+			$('input.pw_signup').keyup(function () {
+				var inputLength = $(this).val().length;
+				var remain = 15 - inputLength;
+				$('h6').html('(현재 남은 입력 자수 : ' + remain + '자)');
+				if (remain >= 0) {
+					$('h6').css('color', 'black');
+				} else {
+					$('h6').css('color', 'red');
+				}
+			});
+		});
+	</script>
+	<!-- 헤더태그 슬라이드 효과  -->
+	<script>
+		$(document).ready(function () {
+			$('#slideToggle').click(function () {
+				$('header').slideToggle();
+			});
+		});
+	</script>
+	<!-- UI 플러그인 색상 변환 -->
+	<script>
+		$(document).ready(function (){
+			$('div.div_ani').hover(function () {
+				$(this).addClass('reverse', 1000);
+			}, function () {
+				$(this).removeClass('reverse', 1000);
+			});
+		});
+	</script>
+	<!-- 라이트박스 -->
+	<script>
+		$(document).ready(function (){
+			$('a.a_colorbox').colorbox();
+		});
+	</script>
 </head>
 <body id="page_top" onload="watch();openWindow()">
 	<!--헤더-->
@@ -270,29 +355,41 @@
 	<div id="content">
 		<!--section-->
 		<section id="main_section">
+			<button id="slideToggle"> 헤더 열기/접기 </button>
 			<div class="main_div" id="about">
 				<h1>인간적인 개발자</h1><br>
-				<p>안녕하세요 저는 경영학과 3학년 김동현입니다.<br>인간적인 면모를 갖춘 개발자가 목표입니다.</p><br>
+				<div class="div_ani">
+					<p>안녕하세요 저는 경영학과 3학년 김동현입니다.<br>인간적인 면모를 갖춘 개발자가 목표입니다.</p>
+				</div><br>
 				<p>(010) 6750-0313</p>
 				<p><a href="mailto:hyn9402@naver.com">hyn9402@naver.com</a></p>		
 			</div>
 			<div class="main_div" id="profile">
    				<h1>프로필</h1><br>
-    			<img class="img_profile" src="img/profile.jpg" alt="">
-   			    <h3>이름</h3>
-       			<P>김동현 ( KIM DONG HYEON )</P><br>
-  				<h3>학력</h3>
-				<p>광운대학교 경영학부 3학년 ( 학번 : 2013508019 )</p><br>
-				<h3>목표</h3>
-				<p>인간적인 면모를 갖춘 개발자 ( 포부 : "최선을 다하자!" )</p><br>
-				<h3>교육</h3>
-				<p>컴퓨터소프트웨어학과 복수전공</p>
-				<p>정보처리산업기사취득</p>
-				<p>멀티캠퍼스 IoT개발자과정(라즈베리파이활용,파이썬) 수료</p>
+    			<img class="img_profile" src="img/profile.jpg" alt=""><br>
+    			<a href="img/profile.jpg" class="a_colorbox"><증명사진확대보기></a><br><br>
+    			<div class="div_ani">
+	   			    <h3>이름</h3>
+	       			<P>김동현 ( KIM DONG HYEON )</P><br>
+       			</div>
+       			<div class="div_ani">
+	  				<h3>학력</h3>
+					<p>광운대학교 경영학부 3학년 ( 학번 : 2013508019 )</p><br>
+				</div>
+				<div class="div_ani">
+					<h3>목표</h3>
+					<p>인간적인 면모를 갖춘 개발자 ( 포부 : "최선을 다하자!" )</p><br>
+				</div>
+				<div class="div_ani">
+					<h3>교육</h3>
+					<p>컴퓨터소프트웨어학과 복수전공</p>
+					<p>정보처리산업기사취득</p>
+					<p>멀티캠퍼스 IoT개발자과정(라즈베리파이활용,파이썬) 수료</p>
+				</div>
 			</div>
 			<div class="main_div" id="board">
       			<h1>게시판</h1><br>
-				<table>
+				<table class="index_tr">
 			  		<tr>
 			  	    	<th>번호</th>
 			  	        <th>제목</th>
@@ -330,6 +427,23 @@
 			  	        <td>04.01</td>
 			  	    </tr>
 			  	</table>				
+			</div>
+			<div class="main_div" id="fun">
+      			<h1>현재의 나</h1><br>
+      			<img src="img/boy.png" class="img_boy">
+      			<img src="img/boy.png" class="img_boy">
+      			<img src="img/boy.png" class="img_boy">
+      			<img src="img/boy.png" class="img_boy">
+      			<img src="img/boy.png" class="img_boy">
+      			<h3>다짐</h3>
+       			<P>그림과 같이 점점 발전하는 모습을 보이자</P><br><br><br>
+   			    <div class="div_now">
+      			<img src="img/student.png" class="img_now">
+      			<img src="img/time.png" class="img_now">
+      			<img src="img/health.png" class="img_now">
+      			</div>
+      			<h3>내게 현재 주어진 것</h3>
+       			<P>시간과 건강과 학생의 신분을 적극 활용 </P><br>
 			</div>
 		</section>
 		<!---aside-->
@@ -395,7 +509,9 @@
 					<tr>
 						<th>비밀번호</th>
 						<td>
-							<input type="password" name="pw_signup" size="40" placeholder="비밀번호 입력" maxlength="30" onkeydown="inputpwChk()">
+							<h5>비밀번호는 숫자로만 15자리까지 입력해주세요</h5>
+							<h6>(현재 비밀번호 입력자수 확인)</h6>
+							<input type="password" class="pw_signup" name="pw_signup" size="40" placeholder="비밀번호 입력" maxlength="30" onkeydown="inputpwChk()">
 						</td>
 					</tr>
 					<tr>
@@ -463,7 +579,13 @@
 				</script>
 				<form>
 					<input type=button value="계산하기" onClick="cal()">
-				</form>
+				</form><br><br>
+				<h3>클릭시 이미지 추가</h3>
+				<h5 class="h5_click">여기 클릭시 최고이미지!</h5>
+			</div>
+			<div class="main_div">
+				<h1>메모장</h1><br>
+				<textarea style="width: 350px; height: 350px;"></textarea>
 			</div>
 		</aside>
 	</div>
